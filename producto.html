@@ -30,7 +30,10 @@
   <div id="cartItems"></div>
   <div id="empty" class="empty">Tu carrito está vacío.<br>Agrega tus productos favoritos.</div>
   <div class="drawerFoot">
-  <div><span>Productos</span><b id="cartTotal">0</b></div>
+  <div class="cartSummary">
+  <div><span>Productos</span><b id="cartCountSummary">0</b></div>
+  <div><span>Total a pagar</span><b id="cartTotalAmount">Pendiente</b></div>
+</div>
   <div class="cartDrawerActions">
     <button class="btn secondaryBtn" id="goCatalog">Seguir comprando</button>
     <button class="btn primary full" id="goCheckout">Finalizar compra</button>
@@ -66,7 +69,7 @@ function renderDetail(){ const id=Number(new URLSearchParams(location.search).ge
   let qty=1; const qEl=$("#qty"); const inCart=cart.find(x=>x.id===p.id)?.qty||0; $("#minus").onclick=()=>{qty=Math.max(1,qty-1);qEl.textContent=qty}; $("#plus").onclick=()=>{const max=Number.isFinite(p.stock)?Math.max(1,p.stock-inCart):99;qty=Math.min(max,qty+1);qEl.textContent=qty}; $("#addDetail").onclick=()=>{ if(Number.isFinite(p.stock)&&inCart+qty>p.stock){alert(`Solo quedan ${p.stock} unidades disponibles.`);return;} const x=cart.find(a=>a.id===p.id); x?x.qty+=qty:cart.push({id:p.id,qty}); save(); openDrawer(); };
 }
 function save(){localStorage.setItem("dmelissa_v2_cart",JSON.stringify(cart));cartRender()}
-function cartRender(){const n=cart.reduce((a,x)=>a+x.qty,0);$("#count").textContent=n;$("#empty").style.display=n?"none":"block";$("#cartItems").innerHTML=cart.map(x=>{const p=PRODUCTS.find(a=>a.id===x.id);return `<div class="cartItem"><img src="${p.image}"><div><b>${p.name}</b><small>${moneyLabel(p.price)}</small><div class="qty"><button onclick="qtyChange(${x.id},-1)">−</button>${x.qty}<button onclick="qtyChange(${x.id},1)">+</button></div></div><button class="del" onclick="removeItem(${x.id})">×</button></div>`}).join("");$("#cartTotal").textContent=n;}
+function cartRender(){const n=cart.reduce((a,x)=>a+x.qty,0);$("#count").textContent=n;$("#cartCountSummary").textContent=n;$("#empty").style.display=n?"none":"block";const priced=cart.map(x=>{const p=PRODUCTS.find(a=>a.id===x.id);const n=parseFloat(String(p?.price).replace(/[^0-9.]/g,''));return {p,n,qty:x.qty}});const allPriced=priced.length&&priced.every(x=>Number.isFinite(x.n));const total=priced.reduce((s,x)=>Number.isFinite(x.n)?s+x.n*x.qty:s,0);$("#cartTotalAmount").textContent=allPriced?'L '+total.toFixed(2):'Pendiente';$("#cartItems").innerHTML=cart.map(x=>{const p=PRODUCTS.find(a=>a.id===x.id);return `<div class="cartItem"><img src="${p.image}"><div><b>${p.name}</b><small>${moneyLabel(p.price)}</small><div class="qty"><button onclick="qtyChange(${x.id},-1)">−</button>${x.qty}<button onclick="qtyChange(${x.id},1)">+</button></div></div><button class="del" onclick="removeItem(${x.id})">×</button></div>`}).join("");}
 function qtyChange(id,d){const x=cart.find(a=>a.id===id),p=PRODUCTS.find(a=>a.id===id);if(!x||!p)return;if(d>0&&Number.isFinite(p.stock)&&x.qty>=p.stock)return;x.qty+=d;if(x.qty<1)cart=cart.filter(a=>a.id!==id);save()}
 function removeItem(id){cart=cart.filter(a=>a.id!==id);save()}
 function openDrawer(){$("#drawer").classList.add("open");$("#overlay").classList.add("show");cartRender()}

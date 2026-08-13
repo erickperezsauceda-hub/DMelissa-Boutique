@@ -247,9 +247,12 @@ footer{
       </div>
     </div>
     <div class="drawerFoot">
-      <div class="cartSummary"><span>Productos</span><b id="cartTotal">0</b></div>
-      <button class="btn primary full" id="whatsapp">Consultar pedido por WhatsApp</button>
-      <button class="btn bankBtn full" id="bankWhatsapp">Enviar comprobante por WhatsApp</button>
+      <div class="cartSummary">
+  <div><span>Productos</span><b id="cartCountSummary">0</b></div>
+  <div><span>Total a pagar</span><b id="cartTotalAmount">Pendiente</b></div>
+</div>
+      <button class="btn primary full" id="whatsapp">Consultar producto</button>
+      <button class="btn bankBtn full" id="bankWhatsapp">Finalizar compra</button>
     </div>
   </div>
 </aside>
@@ -334,7 +337,8 @@ function openProductDetail(id){ window.location.href=`producto.html?id=${id}`; }
 function save(){localStorage.setItem("dmelissa_v2_cart",JSON.stringify(cart));cartRender()}
 function add(id){const p=PRODUCTS.find(a=>a.id===id); if(!p) return; const x=cart.find(a=>a.id===id); const current=x?.qty||0; if(Number.isFinite(p.stock) && current>=p.stock){alert(`No hay más unidades disponibles de ${p.name}.`); return;} x?x.qty++:cart.push({id,qty:1});save();openDrawer()}
 function cartRender(){
-  const n=cart.reduce((a,x)=>a+x.qty,0);$("#count").textContent=n;$("#empty").style.display=n?"none":"block";
+  const n=cart.reduce((a,x)=>a+x.qty,0);$("#count").textContent=n;$("#cartCountSummary").textContent=n;$("#empty").style.display=n?"none":"block";
+  const priced=cart.map(x=>{const p=PRODUCTS.find(a=>a.id===x.id);const n=parseFloat(String(p?.price).replace(/[^0-9.]/g,''));return {p,n,qty:x.qty}});const allPriced=priced.length>0&&priced.every(x=>Number.isFinite(x.n));const total=priced.reduce((s,x)=>Number.isFinite(x.n)?s+x.n*x.qty:s,0);$("#cartTotalAmount").textContent=allPriced?'L '+total.toFixed(2):'Pendiente';
   $("#cartItems").innerHTML=cart.map(x=>{let p=PRODUCTS.find(a=>a.id===x.id);return `<div class="cartItem"><img src="${p.image}"><div><b>${p.name}</b><small>${p.price}</small><div class="qty"><button onclick="qty(${x.id},-1)">−</button>${x.qty}<button onclick="qty(${x.id},1)">+</button></div></div><button class="del" onclick="del(${x.id})">×</button></div>`}).join("");
   $("#cartTotal").textContent=n;
 }
@@ -393,7 +397,7 @@ function goWhatsapp(withBank){
   window.open("https://wa.me/50494517099?text="+buildOrderMessage(withBank),"_blank");
 }
 $("#whatsapp").onclick=()=>goWhatsapp(false);
-$("#bankWhatsapp").onclick=()=>goWhatsapp(true);
+$("#bankWhatsapp").onclick=()=>{window.location.href="carrito.html";}
 const savedCustomer=localStorage.getItem("dmelissa_customer_name");
 if(savedCustomer) {
   $("#customerName").value=savedCustomer;

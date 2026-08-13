@@ -253,3 +253,23 @@ footer{background:#091425;color:#9ca8b8;padding:30px 0}.footer{display:flex;just
     padding-bottom:18px !important;
   }
 }
+
+/* ===== Totales visibles en Finalizar compra ===== */
+.summaryRow.total{
+  background:linear-gradient(90deg,#fbf9f4,#fff);
+  border:1px solid rgba(201,151,50,.28);
+  border-radius:8px;
+  margin-top:12px;
+  padding:14px 15px !important;
+  font-size:18px !important;
+}
+.summaryRow.total span{font-weight:700;color:#0d1a2e}
+.summaryRow.total b{font-size:22px;color:#0d2a63}
+.linePrice{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.linePrice span{font-size:10px;color:#788290;font-weight:500}
+.linePrice strong{font-size:13px;color:#0d2a63}
+@media(max-width:520px){
+  .summaryRow.total{font-size:16px !important}
+  .summaryRow.total b{font-size:19px}
+  .linePrice{align-items:flex-start;margin-top:8px}
+}

@@ -216,7 +216,22 @@ footer{
   <div class="drawerHead"><h3>Tu carrito</h3><button id="closeCart">×</button></div>
   <div id="cartItems"></div>
   <div id="empty" class="empty">Tu carrito está vacío.<br>Agrega tus productos favoritos.</div>
-  <div class="drawerFoot"><div><span>Productos</span><b id="cartTotal">0</b></div><button class="btn primary full" id="whatsapp">Consultar pedido por WhatsApp</button></div>
+  <div class="drawerFoot">
+  <div><span>Productos</span><b id="cartTotal">0</b></div>
+  <div class="paymentBox">
+    <div class="paymentTitle">💳 Método de pago</div>
+    <div class="paymentOption">🏦 Depósito / transferencia bancaria</div>
+    <div class="bankData">
+      <div><span>Banco</span><b>BAC</b></div>
+      <div><span>Titular</span><b>Dirian Melissa Reyes Rodríguez</b></div>
+      <div><span>Tipo de cuenta</span><b>Ahorros</b></div>
+      <div><span>N.º de cuenta</span><b>752091451</b></div>
+    </div>
+    <p class="paymentNote">Realiza el depósito o transferencia y luego envía el comprobante por WhatsApp.</p>
+  </div>
+  <button class="btn primary full" id="whatsapp">Consultar pedido por WhatsApp</button>
+  <button class="btn bankBtn full" id="bankWhatsapp">Enviar comprobante por WhatsApp</button>
+</div>
 </aside>
 <div class="overlay" id="overlay"></div>
 <script>
@@ -287,7 +302,20 @@ $("#openCart").onclick=openDrawer;$("#closeCart").onclick=closeDrawer;$("#overla
 $("#search").oninput=render;$("#sort").onchange=render;
 document.querySelectorAll(".catGrid button").forEach(b=>b.onclick=()=>{category=b.dataset.cat;document.querySelectorAll(".catGrid button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render();location.hash="catalogo"});
 $("#hamb").onclick=()=>$("#mobile").classList.toggle("show");
-$("#whatsapp").onclick=()=>{let msg=cart.length?"Hola, D'Melissa Boutique. Quisiera consultar este pedido:%0A%0A"+cart.map(x=>{let p=PRODUCTS.find(a=>a.id===x.id);return `• ${p.name} x${x.qty}`}).join("%0A"):"Hola, D'Melissa Boutique. Quisiera información sobre sus productos.";window.open("https://wa.me/50400000000?text="+msg,"_blank")};
+function buildOrderMessage(includeBank=false){
+  let msg=cart.length?"Hola, D'Melissa Boutique. Quisiera consultar este pedido:%0A%0A"+cart.map(x=>{let p=PRODUCTS.find(a=>a.id===x.id);return `• ${p.name}%0ACantidad: ${x.qty}`}).join("%0A"):"Hola, D'Melissa Boutique. Quisiera información sobre sus productos.";
+  if(includeBank && cart.length){
+    msg += "%0A%0AMétodo de pago: Depósito / transferencia bancaria.%0A"+
+      "Banco: BAC%0A"+
+      "Titular: Dirian Melissa Reyes Rodríguez%0A"+
+      "Tipo de cuenta: Ahorros%0A"+
+      "Cuenta: 752091451%0A%0A"+
+      "Realicé el pago y enviaré el comprobante.";
+  }
+  return msg;
+}
+$("#whatsapp").onclick=()=>{window.open("https://wa.me/50494517099?text="+buildOrderMessage(false),"_blank")};
+$("#bankWhatsapp").onclick=()=>{window.open("https://wa.me/50494517099?text="+buildOrderMessage(true),"_blank")};
 $("#openAdmin").onclick=openAdmin;
 $("#closeAdmin").onclick=closeAdmin;
 $("#saveAdmin").onclick=saveAdminPrices;

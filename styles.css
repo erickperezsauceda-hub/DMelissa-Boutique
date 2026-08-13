@@ -66,3 +66,73 @@ footer{background:#091425;color:#9ca8b8;padding:30px 0}.footer{display:flex;just
 .bottom{padding-bottom:2px}
 @media(max-width:950px){.nav{height:92px}.logoImage{width:92px;height:82px;flex-basis:92px}.logoImage img{width:82px;height:82px}.links{display:none}.hamb{display:block}.heroGrid{grid-template-columns:1fr;padding:45px 0}.heroText{padding:10px 0}.heroVisual{height:420px}.catGrid{grid-template-columns:repeat(2,1fr)}.products{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.topbar{font-size:8px;letter-spacing:.13em}.nav{height:78px}.logoImage{width:75px;height:70px;flex-basis:75px}.logoImage img{width:70px;height:70px}.cart{padding:9px 12px!important}.hero{min-height:auto}.hero h1{font-size:48px}.heroText>p{font-size:13px}.heroTrust{gap:15px}.heroVisual{height:330px}.heroArch{width:230px;height:300px}.heroPerfume{width:58px;height:58px}.heroGift{width:54px;height:54px}.categories h2{font-size:29px}.catGrid{grid-template-columns:1fr 1fr}.products{grid-template-columns:1fr 1fr;gap:12px}.photo{height:235px}}
+
+.paymentBox{margin:14px 0;padding:16px 17px;border:1px solid rgba(201,151,50,.35);background:linear-gradient(145deg,#fbf9f4,#f4f1ea);border-radius:8px}
+.paymentTitle{font-weight:700;color:var(--deep);font-size:15px;margin-bottom:6px}
+.paymentOption{font-size:11px;color:var(--deep);font-weight:600;margin:0 0 14px;padding-bottom:10px;border-bottom:1px solid rgba(201,151,50,.22)}
+.bankData{display:grid;grid-template-columns:minmax(92px,1fr) minmax(135px,1.4fr);gap:9px 14px;align-items:start}
+.bankData div{display:contents}
+.bankData span{font-size:10px;color:var(--muted);line-height:1.35}
+.bankData b{font-size:10px;color:var(--deep);line-height:1.35;text-align:left;overflow-wrap:anywhere}
+.paymentNote{font-size:10px;line-height:1.5;color:var(--muted);margin:14px 0 0;padding-top:10px;border-top:1px solid rgba(201,151,50,.18)}
+.bankBtn{margin-top:9px;background:#fff !important;color:var(--deep) !important;border:1px solid var(--deep) !important}
+.bankBtn:hover{background:var(--deep) !important;color:#fff !important}
+@media(max-width:480px){
+  .bankData{grid-template-columns:1fr}
+  .bankData span{font-weight:600}
+  .bankData b{margin-top:-5px}
+}
+
+/* ===== Ajuste final del bloque de pago ===== */
+.drawerFoot .paymentBox{
+  display:block !important;
+  width:100%;
+  box-sizing:border-box;
+  margin:14px 0;
+}
+
+.drawerFoot .paymentTitle{
+  display:block;
+  width:100%;
+  margin:0 0 8px;
+}
+
+.drawerFoot .paymentOption{
+  display:block;
+  width:100%;
+  box-sizing:border-box;
+  margin:0 0 14px;
+  padding:0 0 10px;
+  border-bottom:1px solid rgba(201,151,50,.22);
+  white-space:normal;
+  line-height:1.45;
+}
+
+.drawerFoot .bankData{
+  display:grid !important;
+  width:100%;
+  grid-template-columns:minmax(90px, .85fr) minmax(135px, 1.35fr);
+  gap:9px 14px;
+  align-items:start;
+  margin:0;
+}
+
+.drawerFoot .paymentNote{
+  display:block;
+  width:100%;
+  box-sizing:border-box;
+  margin:14px 0 0;
+  padding:10px 0 0;
+  border-top:1px solid rgba(201,151,50,.18);
+  line-height:1.5;
+}
+
+@media(max-width:480px){
+  .drawerFoot .bankData{
+    grid-template-columns:1fr;
+    gap:7px;
+  }
+  .drawerFoot .bankData b{
+    margin-top:-4px;
+  }
+}

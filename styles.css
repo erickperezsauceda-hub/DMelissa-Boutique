@@ -211,3 +211,45 @@ footer{background:#091425;color:#9ca8b8;padding:30px 0}.footer{display:flex;just
 .detailMeta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:28px}.detailMeta div{border:1px solid #e9e3dc;border-radius:8px;padding:13px;background:#fff}.detailMeta b{display:block;font-size:10px;color:#c5a16a;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}.detailMeta span{font-size:11px;color:#0d2b55}
 @media(max-width:950px){.detailGrid{grid-template-columns:1fr;gap:35px}.detailPhoto,.detailPhoto img{min-height:430px;height:430px}.detailCopy h1{font-size:46px}}
 @media(max-width:600px){.detailWrap{padding:30px 0 55px}.detailPhoto,.detailPhoto img{min-height:360px;height:360px}.detailCopy h1{font-size:39px}.detailCopy .detailDesc{font-size:13px}.detailMeta{grid-template-columns:1fr}.detailActions{align-items:stretch;flex-direction:column}.detailQty{width:100%;justify-content:center}.detailActions .btn{width:100%}}
+
+.cartDrawerActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.secondaryBtn{background:#fff!important;color:var(--deep)!important;border:1px solid var(--deep)!important}.secondaryBtn:hover{background:var(--deep)!important;color:#fff!important}@media(max-width:520px){.cartDrawerActions{grid-template-columns:1fr}}
+
+/* ===== Fix carrito V12: lista desplazable + acciones siempre visibles ===== */
+.drawer, .cartDrawer, .cart-panel, .cartSidebar{
+  display:flex !important;
+  flex-direction:column !important;
+  max-height:100vh !important;
+  height:100vh !important;
+  overflow:hidden !important;
+}
+
+.cartItems, .cart-items, #cartItems, .drawerItems{
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  padding-bottom:14px !important;
+  scrollbar-width:thin;
+}
+
+.drawerFoot, .cartFooter, .cart-footer{
+  flex:0 0 auto !important;
+  position:sticky !important;
+  bottom:0 !important;
+  z-index:5 !important;
+  background:#fff !important;
+  box-shadow:0 -8px 22px rgba(12,25,48,.08) !important;
+  padding-bottom:max(16px, env(safe-area-inset-bottom)) !important;
+}
+
+.drawerFoot .full,
+.cartFooter .full,
+.cart-footer .full{
+  min-height:42px !important;
+}
+
+@media(max-width:600px){
+  .cartItems, .cart-items, #cartItems, .drawerItems{
+    padding-bottom:18px !important;
+  }
+}

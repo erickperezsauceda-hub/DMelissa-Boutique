@@ -29,7 +29,13 @@
   <div class="drawerHead"><h3>Tu carrito</h3><button id="closeCart">×</button></div>
   <div id="cartItems"></div>
   <div id="empty" class="empty">Tu carrito está vacío.<br>Agrega tus productos favoritos.</div>
-  <div class="drawerFoot"><div><span>Productos</span><b id="cartTotal">0</b></div><button class="btn primary full" id="goCatalog">Seguir comprando</button></div>
+  <div class="drawerFoot">
+  <div><span>Productos</span><b id="cartTotal">0</b></div>
+  <div class="cartDrawerActions">
+    <button class="btn secondaryBtn" id="goCatalog">Seguir comprando</button>
+    <button class="btn primary full" id="goCheckout">Finalizar compra</button>
+  </div>
+</div>
 </aside>
 <div class="overlay" id="overlay"></div>
 <script>
@@ -65,7 +71,13 @@ function qtyChange(id,d){const x=cart.find(a=>a.id===id),p=PRODUCTS.find(a=>a.id
 function removeItem(id){cart=cart.filter(a=>a.id!==id);save()}
 function openDrawer(){$("#drawer").classList.add("open");$("#overlay").classList.add("show");cartRender()}
 function closeDrawer(){$("#drawer").classList.remove("open");$("#overlay").classList.remove("show")}
-$("#openCart").onclick=openDrawer;$("#closeCart").onclick=closeDrawer;$("#overlay").onclick=closeDrawer;$("#goCatalog").onclick=()=>location.href="index.html#catalogo";$("#hamb").onclick=()=>location.href="index.html";renderDetail();cartRender();
+$("#openCart").onclick=openDrawer;
+$("#closeCart").onclick=closeDrawer;
+$("#overlay").onclick=closeDrawer;
+$("#goCatalog").onclick=()=>{closeDrawer();window.location.href="index.html#catalogo"};
+$("#goCheckout").onclick=()=>{window.location.href="carrito.html"};
+$("#hamb").onclick=()=>location.href="index.html";
+renderDetail();cartRender();
 </script>
 </body>
 </html>

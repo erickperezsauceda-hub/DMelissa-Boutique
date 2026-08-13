@@ -204,39 +204,60 @@ footer{
 
 <section class="adminPanel" id="adminPanel" aria-label="Panel de administración">
   <div class="wrap adminInner">
-    <div class="adminTop"><div><div class="eyebrow">ÁREA PRIVADA</div><h2>Administrador D’Melissa</h2><p>Actualiza los precios del catálogo. Los cambios quedan guardados en este navegador.</p></div><button class="adminClose" id="closeAdmin" aria-label="Cerrar administrador">×</button></div>
-    <div class="adminTools"><div class="adminStat"><b id="adminCount">25</b><span>productos</span></div><div class="adminActions"><button class="adminBtn primaryAdmin" id="saveAdmin">Guardar precios</button><button class="adminBtn" id="exportAdmin">Exportar</button><button class="adminBtn" id="importAdmin">Importar</button><button class="adminBtn dangerAdmin" id="resetAdmin">Restablecer</button></div></div>
-    <div class="adminTableWrap"><table class="adminTable"><thead><tr><th>Imagen</th><th>Nombre / categoría</th><th>Precio</th></tr></thead><tbody id="adminRows"></tbody></table></div>
-    <div class="adminBottom"><span id="adminStatus"></span><small>Consejo: escribe solo el valor, por ejemplo <b>250</b>. También puedes escribir “Consultar”.</small></div>
+    <div class="adminTop"><div><div class="eyebrow">ÁREA PRIVADA</div><h2>Administrador D’Melissa</h2><p>Actualiza precios y controla las existencias del catálogo. Los cambios quedan guardados en este navegador.</p></div><button class="adminClose" id="closeAdmin" aria-label="Cerrar administrador">×</button></div>
+    <div class="adminTools"><div class="adminStat"><b id="adminCount">25</b><span>productos</span></div><div class="adminActions"><button class="adminBtn primaryAdmin" id="saveAdmin">Guardar cambios</button><button class="adminBtn" id="exportAdmin">Exportar</button><button class="adminBtn" id="importAdmin">Importar</button><button class="adminBtn dangerAdmin" id="resetAdmin">Restablecer</button></div></div>
+    <div class="adminTableWrap"><table class="adminTable"><thead><tr><th>Imagen</th><th>Nombre / categoría</th><th>Precio</th><th>Existencia</th><th>Acciones</th></tr></thead><tbody id="adminRows"></tbody></table></div>
+    <div class="adminBottom"><span id="adminStatus"></span><small>Consejo: escribe el precio y la existencia actual. Una existencia sin configurar no limita las ventas. Cuando una existencia llegue a 0, el producto se mostrará como agotado.</small></div>
   </div>
 </section>
 <footer><div class="wrap footer"><div class="logo light"><span class="logoD">D</span><span><b>D'Melissa</b><small>BOUTIQUE</small></span></div><p>© 2026 D'Melissa Boutique · Catálogo digital</p><div><a href="#catalogo">Catálogo</a> <a href="#nosotros">Nosotros</a> <button class="adminLink" id="openAdmin">Administrador</button></div></div></footer>
 
 <aside class="drawer" id="drawer">
   <div class="drawerHead"><h3>Tu carrito</h3><button id="closeCart">×</button></div>
-  <div id="cartItems"></div>
-  <div id="empty" class="empty">Tu carrito está vacío.<br>Agrega tus productos favoritos.</div>
-  <div class="drawerFoot">
-  <div><span>Productos</span><b id="cartTotal">0</b></div>
-  <div class="paymentBox">
-    <div class="paymentTitle">💳 Método de pago</div>
-    <div class="paymentOption">🏦 Depósito / transferencia bancaria</div>
-    <div class="bankData">
-      <div><span>Banco</span><b>BAC</b></div>
-      <div><span>Titular</span><b>Dirian Melissa Reyes Rodríguez</b></div>
-      <div><span>Tipo de cuenta</span><b>Ahorros</b></div>
-      <div><span>N.º de cuenta</span><b>752091451</b></div>
-    </div>
-    <p class="paymentNote">Realiza el depósito o transferencia y luego envía el comprobante por WhatsApp.</p>
+
+  <div class="customerGate" id="customerGate">
+    <div class="customerGateIcon">👤</div>
+    <h4>Antes de continuar</h4>
+    <p>Escribe tu nombre para preparar correctamente tu pedido.</p>
+    <label for="customerName">Nombre del cliente</label>
+    <input id="customerName" type="text" maxlength="80" placeholder="Escribe tu nombre" autocomplete="name">
+    <button class="btn primary full" id="continueCart">Continuar al carrito</button>
+    <small>Tu nombre se incluirá automáticamente en el mensaje de WhatsApp.</small>
   </div>
-  <button class="btn primary full" id="whatsapp">Consultar pedido por WhatsApp</button>
-  <button class="btn bankBtn full" id="bankWhatsapp">Enviar comprobante por WhatsApp</button>
-</div>
+
+  <div class="cartContent" id="cartContent">
+    <div class="customerMini">
+      <span>Cliente</span>
+      <strong id="customerDisplay">—</strong>
+      <button id="editCustomer" type="button">Cambiar</button>
+    </div>
+    <div class="cartScroll" id="cartScroll">
+      <div id="cartItems"></div>
+      <div id="empty" class="empty">Tu carrito está vacío.<br>Agrega tus productos favoritos.</div>
+      <div class="paymentBox">
+        <div class="paymentTitle">💳 Método de pago</div>
+        <div class="paymentOption">🏦 Depósito / transferencia bancaria</div>
+        <div class="bankData">
+          <div><span>Banco</span><b>BAC</b></div>
+          <div><span>Titular</span><b>Dirian Melissa Reyes Rodríguez</b></div>
+          <div><span>Tipo de cuenta</span><b>Ahorros</b></div>
+          <div><span>N.º de cuenta</span><b>752091451</b></div>
+        </div>
+        <p class="paymentNote">Realiza el depósito o transferencia y luego envía el comprobante por WhatsApp.</p>
+      </div>
+    </div>
+    <div class="drawerFoot">
+      <div class="cartSummary"><span>Productos</span><b id="cartTotal">0</b></div>
+      <button class="btn primary full" id="whatsapp">Consultar pedido por WhatsApp</button>
+      <button class="btn bankBtn full" id="bankWhatsapp">Enviar comprobante por WhatsApp</button>
+    </div>
+  </div>
 </aside>
 <div class="overlay" id="overlay"></div>
 <script>
 const DEFAULT_PRODUCTS = [{"id": 1, "name": "Silky Beauty Spray Kinggess", "category": "Cabello", "price": "Consultar", "image": "assets/producto_1.jpeg", "desc": "Spray de belleza de 150 ml para el cuidado y suavidad del cabello."}, {"id": 2, "name": "CeraVe Foaming Cleanser", "category": "Cuidado Facial", "price": "Consultar", "image": "assets/producto_2.jpeg", "desc": "Gel limpiador espumoso para piel normal a grasa, 236 ml."}, {"id": 3, "name": "Jabón Facial Vitamina C Bioaqua", "category": "Cuidado Facial", "price": "Consultar", "image": "assets/producto_3.jpeg", "desc": "Limpiador facial con vitamina C, presentación de 100 g."}, {"id": 4, "name": "Body Mist Victoria's Secret", "category": "Fragancias", "price": "Consultar", "image": "assets/producto_4.jpeg", "desc": "Fragancias disponibles: Aqua Kiss, Pure Seduction, Love Spell y Midnight Bloom."}, {"id": 5, "name": "Bolso tipo Pink", "category": "Accesorios", "price": "Consultar", "image": "assets/producto_5.jpeg", "desc": "Bolso multiuso disponible en tonos negro y vino."}, {"id": 6, "name": "Set de Brochas Cola de Sirena", "category": "Maquillaje", "price": "Consultar", "image": "assets/producto_6.jpeg", "desc": "Set de brochas suaves con diseño de cola de sirena y estuche holográfico."}, {"id": 7, "name": "Máscara 4 en 1 PROSA", "category": "Maquillaje", "price": "Consultar", "image": "assets/producto_7.jpeg", "desc": "Máscaras PROSA para pestañas: efecto alargador, volumen, microfibras y opciones con silicón."}, {"id": 8, "name": "Desodorante Crystal Stick", "category": "Cuidado Personal", "price": "Consultar", "image": "assets/producto_8.jpeg", "desc": "Desodorante en barra de cristal, sin fragancia y sin alcohol."}, {"id": 9, "name": "Banana Setting Powder", "category": "Maquillaje", "price": "Consultar", "image": "assets/producto_9.jpeg", "desc": "Polvo fijador Banana para ayudar a sellar y matificar el maquillaje."}, {"id": 10, "name": "NIVEA Facial Hyaluron Gel", "category": "Cuidado Facial", "price": "Consultar", "image": "assets/producto_10.jpeg", "desc": "Gel facial hidratante con ácido hialurónico, 100 ml."}, {"id": 11, "name": "Set de Botellas de Viaje", "category": "Accesorios", "price": "Consultar", "image": "assets/producto_11.jpeg", "desc": "Kit de envases reutilizables para líquidos, ideal para viajes y organización."}, {"id": 12, "name": "Esponjas de Maquillaje", "category": "Maquillaje", "price": "Consultar", "image": "assets/producto_12.jpeg", "desc": "Esponjas de maquillaje en diferentes formas y colores para aplicación y difuminado."}, {"id": 13, "name": "Toallitas Faciales Watermelon", "category": "Cuidado Facial", "price": "Consultar", "image": "assets/producto_13.jpeg", "desc": "Toallitas húmedas faciales con aroma a sandía, presentación de 30 unidades."}, {"id": 14, "name": "Carotone Crema Clarificante", "category": "Cuidado Personal", "price": "Consultar", "image": "assets/producto_14.jpeg", "desc": "Crema clarificante para el cuidado de la piel, presentación mostrada en la imagen."}, {"id": 15, "name": "Poreless Face Primer", "category": "Maquillaje", "price": "Consultar", "image": "assets/producto_15.jpeg", "desc": "Primer minimizador de poros con acabado mate para preparar la piel."}, {"id": 16, "name": "Limas para Uñas 100/150", "category": "Uñas", "price": "Consultar", "image": "assets/producto_16.jpeg", "desc": "Limas profesionales de grano 100/150 para manicure y cuidado de uñas."}, {"id": 17, "name": "Labiales Matte Color YH", "category": "Maquillaje", "price": "Consultar", "image": "assets/producto_17.jpeg", "desc": "Labiales velvet matte en diferentes tonalidades."}, {"id": 18, "name": "Rasuradores Faciales", "category": "Cuidado Facial", "price": "Consultar", "image": "assets/producto_18.jpeg", "desc": "Rasuradores faciales tipo dermaplaning en colores surtidos."}, {"id": 19, "name": "Set Romero Plus 1000 ml", "category": "Cabello", "price": "Consultar", "image": "assets/producto_19.jpeg", "desc": "Set de shampoo y acondicionador Romero Plus para cuidado y fortalecimiento del cabello."}, {"id": 20, "name": "Esponjas de Maquillaje Surtidas", "category": "Maquillaje", "price": "Consultar", "image": "assets/producto_20.jpeg", "desc": "Set de esponjas de maquillaje en formas y colores surtidos."}, {"id": 21, "name": "Encolchadora Automática", "category": "Cabello", "price": "Consultar", "image": "assets/producto_21.jpeg", "desc": "Encolchadora automática para crear rizos y ondas; disponible en varios colores."}, {"id": 22, "name": "Augeo Herbal Hair Dye Coffee", "category": "Cabello", "price": "Consultar", "image": "assets/producto_22.jpeg", "desc": "Shampoo 3 en 1 para coloración capilar tono Coffee."}, {"id": 23, "name": "Set de Accesorios para Caballero", "category": "Accesorios", "price": "Consultar", "image": "assets/producto_23.jpeg", "desc": "Set de regalo con reloj, billetera, bolígrafo, llavero y cinturón."}, {"id": 24, "name": "Set de Utensilios de Cocina", "category": "Hogar", "price": "Consultar", "image": "assets/producto_24.jpeg", "desc": "Set práctico con cuchillos, pelador y tijeras multiuso."}, {"id": 25, "name": "Mochila Tipo Guess", "category": "Accesorios", "price": "Consultar", "image": "assets/producto_25.jpeg", "desc": "Mochila tipo casual disponible en diferentes colores."}];
 let PRODUCTS = JSON.parse(localStorage.getItem("dmelissa_v3_products") || "null") || DEFAULT_PRODUCTS.map(p=>({...p}));
+PRODUCTS.forEach(p=>{ if(!Object.prototype.hasOwnProperty.call(p,"stock")) p.stock=null; });
 let cart = JSON.parse(localStorage.getItem("dmelissa_v2_cart")||"[]");
 let category = "Todos";
 const ADMIN_USERNAME = "Dirian";
@@ -259,16 +280,16 @@ function openAdmin(){
 }
 function closeAdmin(){ $("#adminPanel").classList.remove("show"); document.body.classList.remove("admin-open"); }
 function renderAdmin(){
-  $("#adminRows").innerHTML=PRODUCTS.map(p=>`<tr data-id="${p.id}"><td><img src="${p.image}" alt="${p.name}"></td><td><b>${p.name}</b><small>${p.category}</small></td><td><input class="adminPrice" type="text" inputmode="decimal" value="${p.price==='Consultar'?'':p.price}" placeholder="Ej. 250 o Consultar" aria-label="Precio de ${p.name}"></td></tr>`).join("");
+  $("#adminRows").innerHTML=PRODUCTS.map(p=>`<tr data-id="${p.id}"><td><img src="${p.image}" alt="${p.name}"></td><td><b>${p.name}</b><small>${p.category}</small></td><td><input class="adminPrice" type="text" inputmode="decimal" value="${p.price==='Consultar'?'':p.price}" placeholder="Ej. 250 o Consultar" aria-label="Precio de ${p.name}"></td><td><input class="adminStock" type="number" min="0" step="1" value="${Number.isFinite(p.stock)?p.stock:''}" placeholder="Sin configurar" aria-label="Existencia de ${p.name}"></td><td><div class="stockActions"><button class="stockMinus" onclick="adjustStock(${p.id},-1)" title="Restar 1">−</button><button class="stockPlus" onclick="adjustStock(${p.id},1)" title="Agregar 1">+</button></div></td></tr>`).join("");
   $("#adminCount").textContent=PRODUCTS.length;
 }
 function saveAdminPrices(){
-  document.querySelectorAll("#adminRows tr").forEach(row=>{ const id=Number(row.dataset.id); const input=row.querySelector(".adminPrice"); const p=PRODUCTS.find(x=>x.id===id); if(p) p.price=moneyLabel(input.value); });
-  saveProducts(); render(); cartRender(); $("#adminStatus").textContent="✓ Cambios guardados correctamente en este navegador."; setTimeout(()=>$("#adminStatus").textContent="",3000);
+  document.querySelectorAll("#adminRows tr").forEach(row=>{ const id=Number(row.dataset.id); const priceInput=row.querySelector(".adminPrice"); const stockInput=row.querySelector(".adminStock"); const p=PRODUCTS.find(x=>x.id===id); if(!p) return; p.price=moneyLabel(priceInput.value); const raw=stockInput.value.trim(); p.stock=raw===""?null:Math.max(0,Math.floor(Number(raw))); });
+  saveProducts(); render(); cartRender(); $("#adminStatus").textContent="✓ Precios y existencias guardados correctamente."; setTimeout(()=>$("#adminStatus").textContent="",3000);
 }
 function resetAdminPrices(){
   if(!confirm("¿Desea borrar los precios guardados y volver todos los productos a \"Consultar\"?")) return;
-  PRODUCTS=DEFAULT_PRODUCTS.map(p=>({...p,price:"Consultar"})); saveProducts(); render(); cartRender(); renderAdmin(); $("#adminStatus").textContent="Precios restablecidos.";
+  PRODUCTS=DEFAULT_PRODUCTS.map(p=>({...p,price:"Consultar",stock:null})); saveProducts(); render(); cartRender(); renderAdmin(); $("#adminStatus").textContent="Precios restablecidos.";
 }
 function exportPrices(){
   const data=JSON.stringify(PRODUCTS.map(p=>({id:p.id,name:p.name,price:p.price})),null,2); const blob=new Blob([data],{type:"application/json"}); const url=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=url; a.download="dmelissa-precios.json"; a.click(); URL.revokeObjectURL(url);
@@ -276,34 +297,81 @@ function exportPrices(){
 function importPrices(){
   const input=document.createElement("input"); input.type="file"; input.accept="application/json"; input.onchange=()=>{ const file=input.files[0]; if(!file) return; const r=new FileReader(); r.onload=()=>{ try{ const imported=JSON.parse(r.result); imported.forEach(item=>{const p=PRODUCTS.find(x=>x.id===Number(item.id)); if(p && item.price!==undefined) p.price=moneyLabel(item.price);}); saveProducts(); render(); cartRender(); renderAdmin(); $("#adminStatus").textContent="Precios importados correctamente."; }catch(e){alert("El archivo no tiene un formato válido.");} }; r.readAsText(file); }; input.click();
 }
+function adjustStock(id,delta){
+  const p=PRODUCTS.find(x=>x.id===id); if(!p) return;
+  p.stock=Number.isFinite(p.stock)?Math.max(0,p.stock+delta):Math.max(0,delta);
+  saveProducts(); render(); cartRender(); renderAdmin();
+}
+function stockLabel(p){
+  if(!Number.isFinite(p.stock)) return "Existencia: sin configurar";
+  if(p.stock<=0) return "Agotado";
+  if(p.stock<=3) return `Últimas ${p.stock} unidades`;
+  return `Disponible: ${p.stock}`;
+}
+function stockClass(p){
+  if(!Number.isFinite(p.stock)) return "stockNeutral";
+  if(p.stock<=0) return "stockOut";
+  if(p.stock<=3) return "stockLow";
+  return "stockOk";
+}
+function canAdd(p){
+  if(!Number.isFinite(p.stock)) return true;
+  const inCart=cart.find(x=>x.id===p.id)?.qty||0;
+  return p.stock>inCart;
+}
 const $=s=>document.querySelector(s);
 function render(){
   const q=$("#search").value.toLowerCase();
   let list=PRODUCTS.filter(p=>(category==="Todos"||p.category===category)&&p.name.toLowerCase().includes(q));
   if($("#sort").value==="az") list.sort((a,b)=>a.name.localeCompare(b.name));
   $("#products").innerHTML=list.map(p=>`
-  <article class="product">
+  <article class="product" onclick="openProductDetail(${p.id})" tabindex="0" role="button" aria-label="Ver detalles de ${p.name}">
     <div class="photo"><img src="${p.image}" alt="${p.name}" loading="lazy"><span class="tag">${p.category}</span></div>
-    <div class="info"><small>${p.category}</small><h3>${p.name}</h3><p>${p.desc}</p><div class="bottom"><b>${p.price}</b><button onclick="add(${p.id})">+ Agregar</button></div></div>
+    <div class="info"><small>${p.category}</small><h3>${p.name}</h3><p>${p.desc}</p><div class="bottom"><div><b>${p.price}</b><div class="stockLine ${stockClass(p)}">${stockLabel(p)}</div></div><button onclick="add(${p.id})" ${canAdd(p)?"":"disabled"}>${canAdd(p)?"+ Agregar":"Agotado"}</button></div></div>
   </article>`).join("") || `<div class="no">No encontramos productos.</div>`;
 }
+function openProductDetail(id){ window.location.href=`producto.html?id=${id}`; }
 function save(){localStorage.setItem("dmelissa_v2_cart",JSON.stringify(cart));cartRender()}
-function add(id){let x=cart.find(a=>a.id===id);x?x.qty++:cart.push({id,qty:1});save();openDrawer()}
+function add(id){const p=PRODUCTS.find(a=>a.id===id); if(!p) return; const x=cart.find(a=>a.id===id); const current=x?.qty||0; if(Number.isFinite(p.stock) && current>=p.stock){alert(`No hay más unidades disponibles de ${p.name}.`); return;} x?x.qty++:cart.push({id,qty:1});save();openDrawer()}
 function cartRender(){
   const n=cart.reduce((a,x)=>a+x.qty,0);$("#count").textContent=n;$("#empty").style.display=n?"none":"block";
   $("#cartItems").innerHTML=cart.map(x=>{let p=PRODUCTS.find(a=>a.id===x.id);return `<div class="cartItem"><img src="${p.image}"><div><b>${p.name}</b><small>${p.price}</small><div class="qty"><button onclick="qty(${x.id},-1)">−</button>${x.qty}<button onclick="qty(${x.id},1)">+</button></div></div><button class="del" onclick="del(${x.id})">×</button></div>`}).join("");
   $("#cartTotal").textContent=n;
 }
-function qty(id,d){let x=cart.find(a=>a.id===id);x.qty+=d;if(x.qty<1)cart=cart.filter(a=>a.id!==id);save()}
+function qty(id,d){let x=cart.find(a=>a.id===id); const p=PRODUCTS.find(a=>a.id===id); if(!x||!p) return; if(d>0 && Number.isFinite(p.stock) && x.qty>=p.stock) return; x.qty+=d;if(x.qty<1)cart=cart.filter(a=>a.id!==id);save()}
 function del(id){cart=cart.filter(a=>a.id!==id);save()}
-function openDrawer(){$("#drawer").classList.add("open");$("#overlay").classList.add("show")}
+function showCustomerGate(){
+  $("#customerGate").classList.add("show");
+  $("#cartContent").classList.remove("show");
+  setTimeout(()=>$("#customerName")?.focus(),80);
+}
+function showCartContent(){
+  const customer=getCustomerName();
+  if(!customer){ showCustomerGate(); return; }
+  localStorage.setItem("dmelissa_customer_name",customer);
+  $("#customerDisplay").textContent=customer;
+  $("#customerGate").classList.remove("show");
+  $("#cartContent").classList.add("show");
+  cartRender();
+}
+function openDrawer(){
+  $("#drawer").classList.add("open");
+  $("#overlay").classList.add("show");
+  const saved=localStorage.getItem("dmelissa_customer_name");
+  if(saved) { $("#customerName").value=saved; showCartContent(); }
+  else showCustomerGate();
+}
 function closeDrawer(){$("#drawer").classList.remove("open");$("#overlay").classList.remove("show")}
 $("#openCart").onclick=openDrawer;$("#closeCart").onclick=closeDrawer;$("#overlay").onclick=closeDrawer;
 $("#search").oninput=render;$("#sort").onchange=render;
 document.querySelectorAll(".catGrid button").forEach(b=>b.onclick=()=>{category=b.dataset.cat;document.querySelectorAll(".catGrid button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render();location.hash="catalogo"});
 $("#hamb").onclick=()=>$("#mobile").classList.toggle("show");
+function getCustomerName(){
+  return (document.querySelector("#customerName")?.value || "").trim();
+}
 function buildOrderMessage(includeBank=false){
-  let msg=cart.length?"Hola, D'Melissa Boutique. Quisiera consultar este pedido:%0A%0A"+cart.map(x=>{let p=PRODUCTS.find(a=>a.id===x.id);return `• ${p.name}%0ACantidad: ${x.qty}`}).join("%0A"):"Hola, D'Melissa Boutique. Quisiera información sobre sus productos.";
+  const customer=getCustomerName();
+  let msg=cart.length?"Hola, D'Melissa Boutique. Quisiera consultar este pedido:%0A%0A"+(customer?"Cliente: "+encodeURIComponent(customer)+"%0A%0A":"")+cart.map(x=>{let p=PRODUCTS.find(a=>a.id===x.id);return `• ${p.name}%0ACantidad: ${x.qty}`}).join("%0A"):"Hola, D'Melissa Boutique. Quisiera información sobre sus productos.";
   if(includeBank && cart.length){
     msg += "%0A%0AMétodo de pago: Depósito / transferencia bancaria.%0A"+
       "Banco: BAC%0A"+
@@ -314,8 +382,35 @@ function buildOrderMessage(includeBank=false){
   }
   return msg;
 }
-$("#whatsapp").onclick=()=>{window.open("https://wa.me/50494517099?text="+buildOrderMessage(false),"_blank")};
-$("#bankWhatsapp").onclick=()=>{window.open("https://wa.me/50494517099?text="+buildOrderMessage(true),"_blank")};
+function goWhatsapp(withBank){
+  if(!cart.length){
+    alert("Agrega al menos un producto al carrito.");
+    return;
+  }
+  const customer=getCustomerName();
+  if(!customer){ showCustomerGate(); return; }
+  localStorage.setItem("dmelissa_customer_name",customer);
+  window.open("https://wa.me/50494517099?text="+buildOrderMessage(withBank),"_blank");
+}
+$("#whatsapp").onclick=()=>goWhatsapp(false);
+$("#bankWhatsapp").onclick=()=>goWhatsapp(true);
+const savedCustomer=localStorage.getItem("dmelissa_customer_name");
+if(savedCustomer) {
+  $("#customerName").value=savedCustomer;
+  $("#customerDisplay").textContent=savedCustomer;
+}
+$("#customerName").addEventListener("input",e=>{
+  e.target.value=e.target.value.replace(/\s{2,}/g," ");
+});
+$("#continueCart").onclick=()=>{
+  const customer=getCustomerName();
+  if(!customer){ alert("Escribe tu nombre para continuar."); $("#customerName").focus(); return; }
+  showCartContent();
+};
+$("#editCustomer").onclick=()=>showCustomerGate();
+$("#customerName").addEventListener("keydown",e=>{
+  if(e.key==="Enter") $("#continueCart").click();
+});
 $("#openAdmin").onclick=openAdmin;
 $("#closeAdmin").onclick=closeAdmin;
 $("#saveAdmin").onclick=saveAdminPrices;

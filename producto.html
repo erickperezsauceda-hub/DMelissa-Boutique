@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>D'Melissa | Producto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="header">
+  <div class="topbar">D'MELISSA BOUTIQUE · BELLEZA, ESTILO Y DETALLES QUE ENAMORAN</div>
+  <nav class="nav wrap">
+    <a href="index.html#inicio" class="logoImage"><img src="assets/logo-dmelissa.png" alt="D’Melissa Boutique"></a>
+    <div class="links"><a href="index.html#inicio">Inicio</a><a href="index.html#catalogo">Catálogo</a><a href="index.html#categorias">Categorías</a><a href="index.html#nosotros">Nosotros</a></div>
+    <button class="cart" id="openCart">🛍️ <span>Carrito</span><i id="count">0</i></button>
+    <button class="hamb" id="hamb">☰</button>
+  </nav>
+</header>
+<main class="detailPage">
+  <div class="wrap detailWrap">
+    <a class="backLink" href="index.html#catalogo">← Volver al catálogo</a>
+    <div id="detail"></div>
+  </div>
+</main>
+<aside class="drawer" id="drawer">
+  <div class="drawerHead"><h3>Tu carrito</h3><button id="closeCart">×</button></div>
+  <div id="cartItems"></div>
+  <div id="empty" class="empty">Tu carrito está vacío.<br>Agrega tus productos favoritos.</div>
+  <div class="drawerFoot"><div><span>Productos</span><b id="cartTotal">0</b></div><button class="btn primary full" id="goCatalog">Seguir comprando</button></div>
+</aside>
+<div class="overlay" id="overlay"></div>
+<script>
+const DEFAULT_PRODUCTS = [{"id": 1, "name": "Silky Beauty Spray Kinggess", "category": "Cabello", "price": "Consultar", "image": "assets/producto_1.jpeg", "desc": "Spray de belleza de 150 ml para el cuidado y suavidad del cabello."}, {"id": 2, "name": "CeraVe Foaming Cleanser", "category": "Cuidado Facial", "price": "Consultar", "image": "assets/producto_2.jpeg", "desc": "Gel limpiador espumoso para piel normal a grasa, 236 ml."}, {"id": 3, "name": "Jabón Facial Vitamina C Bioaqua", "category": "Cuidado Facial", "price": "Consultar", "image": "assets/producto_3.jpeg", "desc": "Limpiador facial con vitamina C, presentación de 100 g."}, {"id": 4, "name": "Body Mist Victoria's Secret", "category": "Fragancias", "price": "Consultar", "image": "assets/producto_4.jpeg", "desc": "Fragancias disponibles: Aqua Kiss, Pure Seduction, Love Spell y Midnight Bloom."}, {"id": 5, "name": "Bolso tipo Pink", "category": "Accesorios", "price": "Consultar", "image": "assets/producto_5.jpeg", "desc": "Bolso multiuso disponible en tonos negro y vino."}, {"id": 6, "name": "Set de Brochas Cola de Sirena", "category": "Maquillaje", "price": "Consultar", "image": "assets/producto_6.jpeg", "desc": "Set de brochas suaves con diseño de cola de sirena y estuche holográfico."}, {"id": 7, "name": "Máscara 4 en 1 PROSA", "category": "Maquillaje", "price": "Consultar", "image": "assets/producto_7.jpeg", "desc": "Máscaras PROSA para pestañas: efecto alargador, volumen, microfibras y opciones con silicón."}, {"id": 8, "name": "Desodorante Crystal Stick", "category": "Cuidado Personal", "price": "Consultar", "image": "assets/producto_8.jpeg", "desc": "Desodorante en barra de cristal, sin fragancia y sin alcohol."}, {"id": 9, "name": "Banana Setting Powder", "category": "Maquillaje", "price": "Consultar", "image": "assets/producto_9.jpeg", "desc": "Polvo fijador Banana para ayudar a sellar y matificar el maquillaje."}, {"id": 10, "name": "NIVEA Facial Hyaluron Gel", "category": "Cuidado Facial", "price": "Consultar", "image": "assets/producto_10.jpeg", "desc": "Gel facial hidratante con ácido hialurónico, 100 ml."}, {"id": 11, "name": "Set de Botellas de Viaje", "category": "Accesorios", "price": "Consultar", "image": "assets/producto_11.jpeg", "desc": "Kit de envases reutilizables para líquidos, ideal para viajes y organización."}, {"id": 12, "name": "Esponjas de Maquillaje", "category": "Maquillaje", "price": "Consultar", "image": "assets/producto_12.jpeg", "desc": "Esponjas de maquillaje en diferentes formas y colores para aplicación y difuminado."}, {"id": 13, "name": "Toallitas Faciales Watermelon", "category": "Cuidado Facial", "price": "Consultar", "image": "assets/producto_13.jpeg", "desc": "Toallitas húmedas faciales con aroma a sandía, presentación de 30 unidades."}, {"id": 14, "name": "Carotone Crema Clarificante", "category": "Cuidado Personal", "price": "Consultar", "image": "assets/producto_14.jpeg", "desc": "Crema clarificante para el cuidado de la piel, presentación mostrada en la imagen."}, {"id": 15, "name": "Poreless Face Primer", "category": "Maquillaje", "price": "Consultar", "image": "assets/producto_15.jpeg", "desc": "Primer minimizador de poros con acabado mate para preparar la piel."}, {"id": 16, "name": "Limas para Uñas 100/150", "category": "Uñas", "price": "Consultar", "image": "assets/producto_16.jpeg", "desc": "Limas profesionales de grano 100/150 para manicure y cuidado de uñas."}, {"id": 17, "name": "Labiales Matte Color YH", "category": "Maquillaje", "price": "Consultar", "image": "assets/producto_17.jpeg", "desc": "Labiales velvet matte en diferentes tonalidades."}, {"id": 18, "name": "Rasuradores Faciales", "category": "Cuidado Facial", "price": "Consultar", "image": "assets/producto_18.jpeg", "desc": "Rasuradores faciales tipo dermaplaning en colores surtidos."}, {"id": 19, "name": "Set Romero Plus 1000 ml", "category": "Cabello", "price": "Consultar", "image": "assets/producto_19.jpeg", "desc": "Set de shampoo y acondicionador Romero Plus para cuidado y fortalecimiento del cabello."}, {"id": 20, "name": "Esponjas de Maquillaje Surtidas", "category": "Maquillaje", "price": "Consultar", "image": "assets/producto_20.jpeg", "desc": "Set de esponjas de maquillaje en formas y colores surtidos."}, {"id": 21, "name": "Encolchadora Automática", "category": "Cabello", "price": "Consultar", "image": "assets/producto_21.jpeg", "desc": "Encolchadora automática para crear rizos y ondas; disponible en varios colores."}, {"id": 22, "name": "Augeo Herbal Hair Dye Coffee", "category": "Cabello", "price": "Consultar", "image": "assets/producto_22.jpeg", "desc": "Shampoo 3 en 1 para coloración capilar tono Coffee."}, {"id": 23, "name": "Set de Accesorios para Caballero", "category": "Accesorios", "price": "Consultar", "image": "assets/producto_23.jpeg", "desc": "Set de regalo con reloj, billetera, bolígrafo, llavero y cinturón."}, {"id": 24, "name": "Set de Utensilios de Cocina", "category": "Hogar", "price": "Consultar", "image": "assets/producto_24.jpeg", "desc": "Set práctico con cuchillos, pelador y tijeras multiuso."}, {"id": 25, "name": "Mochila Tipo Guess", "category": "Accesorios", "price": "Consultar", "image": "assets/producto_25.jpeg", "desc": "Mochila tipo casual disponible en diferentes colores."}];
+let PRODUCTS = JSON.parse(localStorage.getItem("dmelissa_v3_products") || "null") || DEFAULT_PRODUCTS.map(p=>({...p}));
+PRODUCTS.forEach(p=>{ if(!Object.prototype.hasOwnProperty.call(p,"stock")) p.stock=null; });
+let cart=JSON.parse(localStorage.getItem("dmelissa_v2_cart")||"[]");
+const $=s=>document.querySelector(s);
+function moneyLabel(v){ if(v===null||v===undefined||String(v).trim()==="")return "Consultar"; const raw=String(v).trim(); if(raw.toLowerCase()==="consultar")return "Consultar"; const n=Number(raw.replace(/[^0-9.]/g,"")); return Number.isFinite(n)?`L ${n.toFixed(2)}`:raw; }
+function stockLabel(p){ if(!Number.isFinite(p.stock))return "Existencia: sin configurar"; if(p.stock<=0)return "Agotado"; if(p.stock<=3)return `Últimas ${p.stock} unidades`; return `Disponible: ${p.stock}`; }
+function stockClass(p){ if(!Number.isFinite(p.stock))return "neutral"; if(p.stock<=0)return "out"; if(p.stock<=3)return "low"; return "ok"; }
+function renderDetail(){ const id=Number(new URLSearchParams(location.search).get("id")); const p=PRODUCTS.find(x=>x.id===id); const wrap=$("#detail"); if(!p){wrap.innerHTML='<div class="no">Producto no encontrado.</div>';return;} const unavailable=Number.isFinite(p.stock)&&p.stock<=0; wrap.innerHTML=`<div class="detailGrid">
+  <div class="detailPhoto"><span class="detailTag">${p.category}</span><img src="${p.image}" alt="${p.name}"></div>
+  <div class="detailCopy">
+    <div class="eyebrow">D'MELISSA · DETALLE DEL PRODUCTO</div>
+    <h1>${p.name}</h1>
+    <div class="detailPrice">${moneyLabel(p.price)}</div>
+    <div class="detailStock ${stockClass(p)}">${stockLabel(p)}</div>
+    <p class="detailDesc">${p.desc}</p>
+    <div class="detailActions">
+      <div class="detailQty"><button id="minus">−</button><span id="qty">1</span><button id="plus">+</button></div>
+      <button class="btn primary" id="addDetail" ${unavailable?'disabled':''}>${unavailable?'Producto agotado': 'Agregar al carrito'}</button>
+    </div>
+    <div class="detailNote">Puedes revisar tu carrito y completar tu pedido por WhatsApp. La disponibilidad se controla desde el administrador.</div>
+    <div class="detailMeta"><div><b>Categoría</b><span>${p.category}</span></div><div><b>Precio</b><span>${moneyLabel(p.price)}</span></div><div><b>Disponibilidad</b><span>${stockLabel(p)}</span></div></div>
+  </div>
+</div>`;
+  let qty=1; const qEl=$("#qty"); const inCart=cart.find(x=>x.id===p.id)?.qty||0; $("#minus").onclick=()=>{qty=Math.max(1,qty-1);qEl.textContent=qty}; $("#plus").onclick=()=>{const max=Number.isFinite(p.stock)?Math.max(1,p.stock-inCart):99;qty=Math.min(max,qty+1);qEl.textContent=qty}; $("#addDetail").onclick=()=>{ if(Number.isFinite(p.stock)&&inCart+qty>p.stock){alert(`Solo quedan ${p.stock} unidades disponibles.`);return;} const x=cart.find(a=>a.id===p.id); x?x.qty+=qty:cart.push({id:p.id,qty}); save(); openDrawer(); };
+}
+function save(){localStorage.setItem("dmelissa_v2_cart",JSON.stringify(cart));cartRender()}
+function cartRender(){const n=cart.reduce((a,x)=>a+x.qty,0);$("#count").textContent=n;$("#empty").style.display=n?"none":"block";$("#cartItems").innerHTML=cart.map(x=>{const p=PRODUCTS.find(a=>a.id===x.id);return `<div class="cartItem"><img src="${p.image}"><div><b>${p.name}</b><small>${moneyLabel(p.price)}</small><div class="qty"><button onclick="qtyChange(${x.id},-1)">−</button>${x.qty}<button onclick="qtyChange(${x.id},1)">+</button></div></div><button class="del" onclick="removeItem(${x.id})">×</button></div>`}).join("");$("#cartTotal").textContent=n;}
+function qtyChange(id,d){const x=cart.find(a=>a.id===id),p=PRODUCTS.find(a=>a.id===id);if(!x||!p)return;if(d>0&&Number.isFinite(p.stock)&&x.qty>=p.stock)return;x.qty+=d;if(x.qty<1)cart=cart.filter(a=>a.id!==id);save()}
+function removeItem(id){cart=cart.filter(a=>a.id!==id);save()}
+function openDrawer(){$("#drawer").classList.add("open");$("#overlay").classList.add("show");cartRender()}
+function closeDrawer(){$("#drawer").classList.remove("open");$("#overlay").classList.remove("show")}
+$("#openCart").onclick=openDrawer;$("#closeCart").onclick=closeDrawer;$("#overlay").onclick=closeDrawer;$("#goCatalog").onclick=()=>location.href="index.html#catalogo";$("#hamb").onclick=()=>location.href="index.html";renderDetail();cartRender();
+</script>
+</body>
+</html>
